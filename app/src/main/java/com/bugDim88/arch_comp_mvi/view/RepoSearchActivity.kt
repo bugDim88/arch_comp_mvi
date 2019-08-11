@@ -1,13 +1,90 @@
 package com.bugDim88.arch_comp_mvi.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bugDim88.arch_comp_mvi.R
+import com.bugDim88.arch_comp_mvi.dataSource.GitHubServiceImpl
+import com.bugDim88.arch_comp_mvi.domain.SearchGitRepositoriesUseCaseImpl
+import com.bugDim88.arch_comp_mvi.domain.data.GitRepositoryUI
 
 class RepoSearchActivity : AppCompatActivity() {
+
+    private lateinit var _recView: RecyclerView
+    private lateinit var _gitRepAdapter: GitRepsAdapter
+    private lateinit var _repoSearchReducer: RepoSearchAcvtivityVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        gitRepsInit()
+        initVM(savedInstanceState)
+    }
+
+    private fun initVM(savedInstanceState: Bundle?) {
+        _repoSearchReducer = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return RepoSearchAcvtivityVM(SearchGitRepositoriesUseCaseImpl(GitHubServiceImpl)) as T
+            }
+        })[RepoSearchAcvtivityVM::class.java]
+
+        _repoSearchReducer.viewState.observe(this, Observer { handleState(it) })
+
+        if(savedInstanceState == null){
+
+        }
+    }
+
+    private fun handleState(state: RepoSearchReducer.ViewState?) {
+        state?:return
+        state.repositories.handle{_gitRepAdapter.submitList(it)}
+    }
+
+
+    private fun gitRepsInit() {
+        _recView = findViewById(R.id.rep_list)
+        _gitRepAdapter = GitRepsAdapter()
+        _recView.adapter = _gitRepAdapter
+    }
+
+}
+
+class GitRepsAdapter : ListAdapter<GitRepositoryUI, GitRepViewHolder>(DiffCallBack) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitRepViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_git_repo, parent, false)
+        return GitRepViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: GitRepViewHolder, position: Int) = holder.bind(getItem(position))
+
+    object DiffCallBack : DiffUtil.ItemCallback<GitRepositoryUI>() {
+        override fun areItemsTheSame(oldItem: GitRepositoryUI, newItem: GitRepositoryUI): Boolean =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: GitRepositoryUI, newItem: GitRepositoryUI): Boolean =
+            oldItem == newItem
+
+    }
+}
+
+class GitRepViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val _tvTitle = itemView.findViewById<TextView>(R.id.tv_title)
+    private val _tvDescription = itemView.findViewById<TextView>(R.id.tv_description)
+    private val _language = itemView.findViewById<TextView>(R.id.tv_lang)
+    fun bind(item: GitRepositoryUI) {
+        _tvTitle.text = item.name
+        _tvDescription.text = item.description
+        _language.text = item.language
     }
 }

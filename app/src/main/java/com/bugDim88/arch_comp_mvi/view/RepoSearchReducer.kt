@@ -31,6 +31,8 @@ class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepos
             is ViewIntent.ConfigurationChange -> state.copy(
                 repositories = HandledData(state.repositories.data)
             )
+            ViewIntent.InitIntent -> TODO()
+            ViewIntent.ReloadIntent -> TODO()
         }
     }
     override val resultStateReducer: Reducer<ViewState, Unit> = {state, _->state}
@@ -43,6 +45,8 @@ class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepos
     sealed class ViewIntent{
         data class SearchRepo(val query: String): ViewIntent()
         object ConfigurationChange: ViewIntent()
+        object InitIntent: ViewIntent()
+        object ReloadIntent: ViewIntent()
     }
 
     data class ViewState(
