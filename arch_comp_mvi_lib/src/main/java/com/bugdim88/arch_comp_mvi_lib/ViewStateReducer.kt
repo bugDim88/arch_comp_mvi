@@ -22,9 +22,13 @@ abstract class ViewStateReducerImpl<S, in I>(private val initialState: S) : View
     private var _currentState: S?
         get() = _viewStateMediator.value
         set(value) {
+            value?:return
             value
-                ?.let { resultStateReducer(it) }
-                ?.let { _viewStateMediator.value = it }
+                .let {
+                    if(resultStateReducer != null) resultStateReducer(value, Unit)
+                    else it
+                }
+                .let { _viewStateMediator.value = it }
         }
 
     private val _viewIntent = MutableLiveData<I>()
@@ -40,7 +44,9 @@ abstract class ViewStateReducerImpl<S, in I>(private val initialState: S) : View
     protected abstract val resultStateReducer: Reducer<S, Unit>
 
     override val viewState: LiveData<S> = _viewStateMediator
-    override fun onViewIntent(intent: I) = _viewIntent.postValue(intent)
+    override fun onViewIntent(intent: I) {
+        _viewIntent.value = intent
+    }
 
     init {
         _currentState = initialState

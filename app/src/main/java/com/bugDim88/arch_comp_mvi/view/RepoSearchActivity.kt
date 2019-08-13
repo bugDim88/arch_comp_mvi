@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,13 +14,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bugDim88.arch_comp_mvi.R
 import com.bugDim88.arch_comp_mvi.dataSource.GitHubServiceImpl
 import com.bugDim88.arch_comp_mvi.domain.SearchGitRepositoriesUseCaseImpl
 import com.bugDim88.arch_comp_mvi.domain.data.GitRepositoryUI
+import com.bugDim88.arch_comp_mvi.view.RepoSearchReducer.*
 
 class RepoSearchActivity : AppCompatActivity() {
 
+    private lateinit var _refreshLayout: SwipeRefreshLayout
+    private lateinit var _searchView: SearchView
     private lateinit var _recView: RecyclerView
     private lateinit var _gitRepAdapter: GitRepsAdapter
     private lateinit var _repoSearchReducer: RepoSearchAcvtivityVM
@@ -28,7 +33,26 @@ class RepoSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         gitRepsInit()
+        searchViewInit()
         initVM(savedInstanceState)
+    }
+
+    private fun searchViewInit() {
+        _searchView = findViewById(R.id.rep_search)
+        _searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query ?: return false
+                _repoSearchReducer.onViewIntent(ViewIntent.SearchRepo(query))
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText ?: return false
+                _repoSearchReducer.onViewIntent(ViewIntent.SearchRepo(newText))
+                return true
+            }
+
+        })
     }
 
     private fun initVM(savedInstanceState: Bundle?) {
@@ -37,17 +61,17 @@ class RepoSearchActivity : AppCompatActivity() {
                 return RepoSearchAcvtivityVM(SearchGitRepositoriesUseCaseImpl(GitHubServiceImpl)) as T
             }
         })[RepoSearchAcvtivityVM::class.java]
-
         _repoSearchReducer.viewState.observe(this, Observer { handleState(it) })
 
-        if(savedInstanceState == null){
-
+        if (savedInstanceState == null) {
+            _repoSearchReducer.onViewIntent(ViewIntent.InitIntent)
         }
     }
 
-    private fun handleState(state: RepoSearchReducer.ViewState?) {
-        state?:return
-        state.repositories.handle{_gitRepAdapter.submitList(it)}
+    private fun handleState(state: ViewState?) {
+        state ?: return
+        state.repositories.handle { _gitRepAdapter.submitList(it) }
+        state.loadEvent.handle { _refreshLayout.isRefreshing = it?:false}
     }
 
 
@@ -55,6 +79,11 @@ class RepoSearchActivity : AppCompatActivity() {
         _recView = findViewById(R.id.rep_list)
         _gitRepAdapter = GitRepsAdapter()
         _recView.adapter = _gitRepAdapter
+
+        _refreshLayout = findViewById(R.id.swipe_layout)
+        _refreshLayout.apply{
+            setOnRefreshListener { _repoSearchReducer.onViewIntent(ViewIntent.RefreshIntent) }
+        }
     }
 
 }

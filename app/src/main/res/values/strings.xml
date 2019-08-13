@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">arch_comp_mvi</string>
+    <string name="search_hint">repo name</string>
 </resources>

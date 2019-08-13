@@ -32,6 +32,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta02'
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation project(':arch_comp_mvi_lib')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

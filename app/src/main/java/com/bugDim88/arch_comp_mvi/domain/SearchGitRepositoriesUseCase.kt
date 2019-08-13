@@ -12,6 +12,11 @@ class SearchGitRepositoriesUseCaseImpl(private val gitHubService: GitHubService)
         val response = gitHubService.searchRepos(parameters).execute()
         if(!response.isSuccessful)
             throw Exception(response.errorBody().toString())
-        return response.body()?.items?.map { GitRepositoryUI.fromGitRepApi(it) }?: emptyList()
+        val result = response.body()?.items?.map { GitRepositoryUI.fromGitRepApi(it) }?: emptyList()
+        return result
     }
+}
+
+class SearchGitRepositoriesUseCaseMock(val resultList: List<GitRepositoryUI> = emptyList()): SearchGitRepositoriesUseCase(){
+    override fun execute(parameters: String): List<GitRepositoryUI> = resultList
 }
