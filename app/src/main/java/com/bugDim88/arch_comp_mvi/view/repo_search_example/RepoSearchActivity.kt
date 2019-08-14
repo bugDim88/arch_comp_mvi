@@ -1,4 +1,4 @@
-package com.bugDim88.arch_comp_mvi.view
+package com.bugDim88.arch_comp_mvi.view.repo_search_example
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +19,8 @@ import com.bugDim88.arch_comp_mvi.R
 import com.bugDim88.arch_comp_mvi.dataSource.GitHubServiceImpl
 import com.bugDim88.arch_comp_mvi.domain.SearchGitRepositoriesUseCaseImpl
 import com.bugDim88.arch_comp_mvi.domain.data.GitRepositoryUI
-import com.bugDim88.arch_comp_mvi.view.RepoSearchReducer.*
+import com.bugDim88.arch_comp_mvi.view.repo_search_example.RepoSearchReducer.*
+import kotlinx.android.synthetic.main.repo_search_activity.*
 
 class RepoSearchActivity : AppCompatActivity() {
 
@@ -31,10 +32,16 @@ class RepoSearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.repo_search_activity)
+        setToolbar()
         gitRepsInit()
         searchViewInit()
         initVM(savedInstanceState)
+    }
+
+    private fun setToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun searchViewInit() {
@@ -58,7 +65,9 @@ class RepoSearchActivity : AppCompatActivity() {
     private fun initVM(savedInstanceState: Bundle?) {
         _repoSearchReducer = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return RepoSearchAcvtivityVM(SearchGitRepositoriesUseCaseImpl(GitHubServiceImpl)) as T
+                return RepoSearchAcvtivityVM(
+                    SearchGitRepositoriesUseCaseImpl(GitHubServiceImpl)
+                ) as T
             }
         })[RepoSearchAcvtivityVM::class.java]
         _repoSearchReducer.viewState.observe(this, Observer { handleState(it) })
@@ -88,7 +97,9 @@ class RepoSearchActivity : AppCompatActivity() {
 
 }
 
-class GitRepsAdapter : ListAdapter<GitRepositoryUI, GitRepViewHolder>(DiffCallBack) {
+class GitRepsAdapter : ListAdapter<GitRepositoryUI, GitRepViewHolder>(
+    DiffCallBack
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitRepViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_git_repo, parent, false)

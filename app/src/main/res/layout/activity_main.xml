@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.RepoSearchActivity">
+    tools:context=".view.MainActivity">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/rep_search"
+    <TextView
+        android:id="@+id/tv_counter_example"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:text="counter example"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toTopOf="@+id/tv_search_repo_example"
         app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="@string/search_hint" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:ignore="HardcodedText"
+        tools:layout_editor_absoluteX="16dp" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_layout"
+    <TextView
+        android:id="@+id/tv_search_repo_example"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:text="search git repo example"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rep_search">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rep_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_git_repo" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tv_counter_example"
+        tools:ignore="HardcodedText"
+        tools:layout_editor_absoluteX="113dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

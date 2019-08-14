@@ -1,4 +1,4 @@
-package com.bugDim88.arch_comp_mvi.view
+package com.bugDim88.arch_comp_mvi.view.repo_search_example
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.switchMap
