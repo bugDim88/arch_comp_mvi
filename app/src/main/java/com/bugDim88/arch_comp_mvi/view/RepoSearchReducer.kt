@@ -7,10 +7,10 @@ import com.bugDim88.arch_comp_mvi.domain.data.GitRepositoryUI
 import com.bugdim88.arch_comp_mvi_lib.HandledData
 import com.bugdim88.arch_comp_mvi_lib.Reducer
 import com.bugdim88.arch_comp_mvi_lib.Result
-import com.bugdim88.arch_comp_mvi_lib.ViewStateReducerImpl
+import com.bugdim88.arch_comp_mvi_lib.ViewStateInteractorImpl
 
 class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepositoriesUseCase, private val initState: ViewState = ViewState()) :
-    ViewStateReducerImpl<RepoSearchReducer.ViewState, RepoSearchReducer.ViewIntent>(initialState = initState) {
+    ViewStateInteractorImpl<RepoSearchReducer.ViewState, RepoSearchReducer.ViewIntent>(initialState = initState) {
 
     private val _repoQuery = MutableLiveData<String>()
     private val _repoQueryResult = switchMap(_repoQuery) { searchGitRepositoriesUseCase(it) }

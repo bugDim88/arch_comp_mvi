@@ -24,7 +24,6 @@ class HandledData<out T>( val data: T?){
 
         other as HandledData<*>
 
-        if (data != other.data) return false
-        return true
+        return (data == other.data)
     }
 }

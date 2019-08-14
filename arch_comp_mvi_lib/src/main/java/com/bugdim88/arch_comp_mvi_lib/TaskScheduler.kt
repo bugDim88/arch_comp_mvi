@@ -4,8 +4,11 @@ import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.math.max
 
-private const val NUMBER_OF_THREADS = 4 // TODO: Make this depend on device's hw
+private const val NUMBER_OF_THREADS = 4
+
+private val numberOfCores = Runtime.getRuntime().availableProcessors()
 
 interface Scheduler {
 
@@ -48,7 +51,7 @@ object DefaultScheduler : Scheduler {
  */
 internal object AsyncScheduler : Scheduler {
 
-    private val executorService: ExecutorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS)
+    private val executorService: ExecutorService = Executors.newFixedThreadPool(max(NUMBER_OF_THREADS, numberOfCores))
 
     override fun execute(task: () -> Unit) {
         executorService.execute(task)
