@@ -2,17 +2,34 @@ package com.bugDim88.arch_comp_mvi.view.counter_example
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
 class CounterInteractor: ViewStateInteractor<CounterInteractor.ViewState, CounterInteractor.ViewIntent> {
 
     private val _viewState = MutableLiveData<ViewState>()
 
+    private var _currentState: ViewState? = ViewState()
+        set(value){
+            value?:return
+            field = value
+            _viewState.value = value
+        }
 
     override val viewState: LiveData<ViewState>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = _viewState
 
     override fun onViewIntent(intent: ViewIntent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        _currentState = intentReducer(_currentState, intent)
+    }
+
+    private fun intentReducer(state: ViewState?, intent: ViewIntent):ViewState?{
+       return when(intent){
+            is ViewIntent.IncrementCount ->state?.copy(counter = state.counter + 1)
+        }
+    }
+
+    init{
+        _viewState.value = ViewState()
     }
 
 
@@ -30,6 +47,9 @@ class CounterInteractor: ViewStateInteractor<CounterInteractor.ViewState, Counte
         val counter: Int = 0
     )
 }
+
+class CounterVM: ViewModel(), ViewStateInteractor<CounterInteractor.ViewState, CounterInteractor.ViewIntent> by
+        CounterInteractor()
 
 /**
  * Interactor interface, more simple - more cool.
