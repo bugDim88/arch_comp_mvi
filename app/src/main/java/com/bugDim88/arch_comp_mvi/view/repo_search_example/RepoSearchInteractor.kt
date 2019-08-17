@@ -9,8 +9,8 @@ import com.bugdim88.arch_comp_mvi_lib.Reducer
 import com.bugdim88.arch_comp_mvi_lib.Result
 import com.bugdim88.arch_comp_mvi_lib.ViewStateInteractorImpl
 
-class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepositoriesUseCase, private val initState: ViewState = ViewState()) :
-    ViewStateInteractorImpl<RepoSearchReducer.ViewState, RepoSearchReducer.ViewIntent>(initialState = initState) {
+class RepoSearchInteractor(private val searchGitRepositoriesUseCase: SearchGitRepositoriesUseCase, private val initState: ViewState = ViewState()) :
+    ViewStateInteractorImpl<RepoSearchInteractor.ViewState, RepoSearchInteractor.ViewIntent>(initialState = initState) {
 
     private val _repoQuery = MutableLiveData<String>()
     private val _repoQueryResult = switchMap(_repoQuery) { searchGitRepositoriesUseCase(it) }
@@ -48,7 +48,6 @@ class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepos
                 repositories = HandledData(state.repositories.data),
                 loadEvent = HandledData(state.loadEvent.data)
             )
-            ViewIntent.InitIntent -> state
             ViewIntent.RefreshIntent -> onRefreshIntent(state)
         }
     }
@@ -61,10 +60,6 @@ class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepos
         return state
     }
 
-    override val resultStateReducer: Reducer<ViewState, Unit> = { state, _ ->
-        state
-    }
-
     init {
         searchGitRepositoriesUseCase.checkSingleTask = false
         attachUseCaseReducer(_repoQueryResult, _queryResultReducer)
@@ -74,7 +69,6 @@ class RepoSearchReducer(private val searchGitRepositoriesUseCase: SearchGitRepos
     sealed class ViewIntent {
         data class SearchRepo(val query: String) : ViewIntent()
         object ConfigurationChange : ViewIntent()
-        object InitIntent : ViewIntent()
         object RefreshIntent : ViewIntent()
     }
 

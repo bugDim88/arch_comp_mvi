@@ -19,7 +19,7 @@ import com.bugDim88.arch_comp_mvi.R
 import com.bugDim88.arch_comp_mvi.dataSource.GitHubServiceImpl
 import com.bugDim88.arch_comp_mvi.domain.SearchGitRepositoriesUseCaseImpl
 import com.bugDim88.arch_comp_mvi.domain.data.GitRepositoryUI
-import com.bugDim88.arch_comp_mvi.view.repo_search_example.RepoSearchReducer.*
+import com.bugDim88.arch_comp_mvi.view.repo_search_example.RepoSearchInteractor.*
 import kotlinx.android.synthetic.main.repo_search_activity.*
 
 class RepoSearchActivity : AppCompatActivity() {
@@ -36,7 +36,7 @@ class RepoSearchActivity : AppCompatActivity() {
         setToolbar()
         gitRepsInit()
         searchViewInit()
-        initVM(savedInstanceState)
+        initVM()
     }
 
     private fun setToolbar() {
@@ -62,7 +62,8 @@ class RepoSearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun initVM(savedInstanceState: Bundle?) {
+    @Suppress("UNCHECKED_CAST")
+    private fun initVM() {
         _repoSearchReducer = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return RepoSearchAcvtivityVM(
@@ -71,10 +72,6 @@ class RepoSearchActivity : AppCompatActivity() {
             }
         })[RepoSearchAcvtivityVM::class.java]
         _repoSearchReducer.viewState.observe(this, Observer { handleState(it) })
-
-        if (savedInstanceState == null) {
-            _repoSearchReducer.onViewIntent(ViewIntent.InitIntent)
-        }
     }
 
     private fun handleState(state: ViewState?) {

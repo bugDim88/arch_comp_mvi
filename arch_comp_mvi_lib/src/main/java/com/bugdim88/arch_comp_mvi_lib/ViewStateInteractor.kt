@@ -99,11 +99,11 @@ abstract class ViewStateInteractorImpl<S, in I>(initialState: S) : ViewStateInte
      */
     protected abstract val intentReducer: Reducer<S, I>
     /**
-     * [Reducer] for post processing ViewState updating based on the current state. It is calling before actual
+     * Optional [Reducer] for post processing ViewState updating based on the current state. It is calling before actual
      * push updated ViewState to [viewState] LiveData, in this moment you can do some `old` and `new` view state
      * comparisons for example and make appropriate updates to ViewState.
      */
-    protected abstract val resultStateReducer: Reducer<S, Unit>
+    open val resultStateReducer: Reducer<S, Unit> = {state,_->state}
 
     override val viewState: LiveData<S> = _viewStateMediator
     override fun onViewIntent(intent: I) {

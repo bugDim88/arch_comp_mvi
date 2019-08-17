@@ -1,7 +1,7 @@
 package com.bugDim88.arch_comp_mvi
 
 import com.bugDim88.arch_comp_mvi.domain.SearchGitRepositoriesUseCaseMock
-import com.bugDim88.arch_comp_mvi.view.repo_search_example.RepoSearchReducer
+import com.bugDim88.arch_comp_mvi.view.repo_search_example.RepoSearchInteractor
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -15,7 +15,7 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         val repoSearchReducer =
-            RepoSearchReducer(SearchGitRepositoriesUseCaseMock())
+            RepoSearchInteractor(SearchGitRepositoriesUseCaseMock())
         assertEquals(4, 2 + 2)
     }
 }
