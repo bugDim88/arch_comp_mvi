@@ -51,11 +51,11 @@ Inheritance example:
 ViewStateInteractorVM<S, I>(reducerDelegate: ViewStateInteractor<S, I>) : ViewModel(),
     ViewStateInteractor<S, I> by reducerDelegate
 ```
-On fragment side you simply observer *ViewState* (LiveData)[https://developer.android.com/reference/android/arch/lifecycle/LiveData] and pass user interactions through *onViewIntent(...)* methods back to interactor.
+On fragment side you simply observer *ViewState* [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) and pass user interactions through *onViewIntent(...)* methods back to interactor.
 
 ## Testing
-Unit testing of [ViewStateInteractor](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) is simple as (LiveData)[https://developer.android.com/reference/android/arch/lifecycle/LiveData] holder testing. You just pass monkey *ViewIntents* and assert updated *ViewState*.
-You can find example in (demo project)[https://github.com/bugDim88/arch_comp_mvi/tree/master/app] inside a repository.
+Unit testing of [ViewStateInteractor](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) is simple as [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) holder testing. You just pass monkey *ViewIntents* and assert updated *ViewState*.
+You can find example in [demo project](https://github.com/bugDim88/arch_comp_mvi/tree/master/app) inside a repository.
 
 
 
