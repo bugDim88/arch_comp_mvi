@@ -40,7 +40,7 @@ Here you can use *data class* for ViewIntent's with arguments and *objects* for 
 
 ![Reducers scheme](https://github.com/bugDim88/arch_comp_mvi/blob/master/lib_mvi_tutorials/reducers_scheme.png "Reducers scheme")
 
-* The *intentReducer* is required reducer that covert *ViewIntent* to new *ViewState*. 
+* The *intentReducer* is required reducer that convert *ViewIntent* to new *ViewState*. 
 * The *useCaseReducer* is optional reducer that converts domain UseCase result to new *ViewState*. Attached to [ViewStateInteractorImpl](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) through attachUseCaseReducer(...) method.
 * The *resultStateReducer* is also optional and intended for apply some udaptes to *ViewState* before final object will be passed to *View*. It is userful for situation when you need to compare some old and current state stuff to updated some fields in *ViewState*.
 
