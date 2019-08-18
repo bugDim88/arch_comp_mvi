@@ -79,8 +79,7 @@ class RepoSearchActivity : AppCompatActivity() {
         state.repositories.handle { _gitRepAdapter.submitList(it) }
         state.loadEvent.handle { _refreshLayout.isRefreshing = it?:false}
     }
-
-
+    
     private fun gitRepsInit() {
         _recView = findViewById(R.id.rep_list)
         _gitRepAdapter = GitRepsAdapter()
