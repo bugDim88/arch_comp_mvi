@@ -4,7 +4,7 @@ Implementation based on [Android Architecture Components](https://developer.andr
 The core interface [ViewStateInteractor](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt)
 got only 2 
 entry points for veiw layer: [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData)
-contatiner with viewState, and method that can take view intents. Шt simplifies and smooths the flow of information between architectural layers of the app.
+contatiner with viewState, and method that can take view intents. Such approach gote many benefits and simplifies and smooths the flow of information between architectural layers of the app.
 
 The basic implementation of core component, [ViewStateInteractorImpl](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt)
 , assumes that connection with "domain logic" will also happen through
