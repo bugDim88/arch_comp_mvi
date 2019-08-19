@@ -1,1 +1,1 @@
-include ':app', ':arch_comp_mvi_lib'
+include ':app', ':arch_comp_mvi_lib', ':arch_comp_mvi_test', ':arch_comp_mvi_testing'
