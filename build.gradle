@@ -12,6 +12,10 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        // Bintray and Maven Gradle Classpath
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
@@ -23,6 +27,23 @@ allprojects {
     }
 }
 
+ext{
+    bintrayRepo = "android_arch_utils"
+    siteUrl = "https://github.com/bugDim88/arch_comp_mvi"
+    gitUrl = "https://github.com/bugDim88/arch_comp_mvi.git"
+    developerId = "bugDim88"
+    developerName = "Bugrov Dmitrij"
+    developerEmail = "bugrov.dmitrij@gmail.com"
+    licenseName = "The Apache Software License, Version 2.0"
+    licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+    allLicenses = ["Apache-2.0"]
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Avoid Kotlin docs error
+subprojects{
+    tasks.withType(Javadoc).all { enabled = false }
 }

@@ -1,6 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext{
+    bintrayPackage = "arch_comp_mvi"
+    libraryName = "arch_comp_mvi_lib"
+    publishedGroupId = "com.bugdim88"
+    artifact = "arch_comp_mvi"
+    libraryVersion = "1.0.0"
+    libraryDescription = "MVI pattern implementation with Android Architectural Components"
+}
 
 android {
     compileSdkVersion 28
@@ -35,6 +46,9 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
 repositories {
     mavenCentral()
 }
+
+apply from:"../jcenter.gradle"
