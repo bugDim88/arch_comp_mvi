@@ -16,7 +16,3 @@ class SearchGitRepositoriesUseCaseImpl(private val gitHubService: GitHubService)
         return result
     }
 }
-
-class SearchGitRepositoriesUseCaseMock(val resultList: List<GitRepositoryUI> = emptyList()): SearchGitRepositoriesUseCase(){
-    override fun execute(parameters: String): List<GitRepositoryUI> = resultList
-}
