@@ -9,8 +9,6 @@ import com.bugdim88.arch_comp_mvi_testing.rules.SyncTaskExecutorRule
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.BDDMockito.given
-import org.mockito.Mockito.mock
 
 /**
  * Tests for [RepoSearchInteractor].
