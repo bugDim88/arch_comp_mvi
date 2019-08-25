@@ -36,7 +36,7 @@ sealed class ViewIntent{
 ```
 Here you can use *data class* for ViewIntent's with arguments and *objects* for ViewIntent's without arguments.
 
-[ViewStateInteractorImpl](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) built on three (Reducer)[https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt] functions. This functions get *ViewState* in input and gives updated *ViewState* in output, optionaly you can give som additional argument for this function. ViewState update by these functions is shown in the scheme.
+[ViewStateInteractorImpl](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) built on three [Reducer](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) functions. This functions get *ViewState* in input and gives updated *ViewState* in output, optionaly you can give som additional argument for this function. ViewState update by these functions is shown in the scheme.
 
 ![Reducers scheme](https://github.com/bugDim88/arch_comp_mvi/blob/master/lib_mvi_tutorials/reducers_scheme.png "Reducers scheme")
 
@@ -53,7 +53,6 @@ ViewStateInteractorVM<S, I>(reducerDelegate: ViewStateInteractor<S, I>) : ViewMo
 ```
 On fragment side you simply observer *ViewState* [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) and pass user interactions through *onViewIntent(...)* methods back to interactor.
 
-## Testing
 Unit testing of [ViewStateInteractor](https://github.com/bugDim88/arch_comp_mvi/blob/master/arch_comp_mvi_lib/src/main/java/com/bugdim88/arch_comp_mvi_lib/ViewStateInteractor.kt) is simple as [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData) holder testing. You just pass monkey *ViewIntents* and assert updated *ViewState*.
 You can find example in [demo project](https://github.com/bugDim88/arch_comp_mvi/tree/master/app) inside a repository.
 
