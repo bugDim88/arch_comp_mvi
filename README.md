@@ -12,6 +12,15 @@ The basic implementation of core component, [ViewStateInteractorImpl](https://gi
 
 ![Data flow scheme](https://github.com/bugDim88/arch_comp_mvi/blob/master/lib_mvi_tutorials/data_flow_scheme.png "Data flow scheme")
 
+## Import.
+```
+//core components
+implementation 'com.bugdim88.arch_comp_mvi:arch_comp_mvi_lib:$release_tag'
+//tools for easy testing
+testImplementation 'com.bugdim88.arch_comp_mvi:arch_comp_mvi_testing:$release_tag'
+
+```
+
 ## How to use.
 The core components of MVI pattern flow is *ViewState* and *ViewIntent* objects. The *ViewState* it's simple POJO
 class with all propoerties that view layer must to know to correct present current state on the screen. In Kotlin using *data class* is appropriate for this purpose. Example of *ViewState* imlementation:
