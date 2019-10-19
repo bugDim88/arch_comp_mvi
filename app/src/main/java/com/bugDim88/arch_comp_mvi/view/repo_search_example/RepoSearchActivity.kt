@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -78,6 +79,12 @@ class RepoSearchActivity : AppCompatActivity() {
         state ?: return
         state.repositories.handle { _gitRepAdapter.submitList(it) }
         state.loadEvent.handle { _refreshLayout.isRefreshing = it?:false}
+        state.exception.handle(::handleError)
+    }
+
+    private fun handleError(e: Exception?){
+        e?:return
+        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
     }
     
     private fun gitRepsInit() {
