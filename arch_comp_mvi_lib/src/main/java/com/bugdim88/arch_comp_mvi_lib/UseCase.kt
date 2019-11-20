@@ -5,17 +5,10 @@ import androidx.lifecycle.MutableLiveData
 
 /**
  * Executes business logic synchronously or asynchronously using a [Scheduler].
- * [checkSingleTask] - boolean flag, true by default,  that explicitly prevent or allow multiply invoking.
- * If [checkSingleTask] is true and [UseCase] are already running, than [UseCase.invoke]
- * do nothing, or if [checkSingleTask] is false in this situation [UseCase.invoke] start to
- * process new task.
- *
  */
 abstract class UseCase<in P, R> {
 
     private val taskScheduler = DefaultScheduler
-    //check if executeInProcess flag needs to by applied
-    var checkSingleTask = true
 
     /** Executes the use case asynchronously and places the [Result] in a MutableLiveData
      *
@@ -24,20 +17,15 @@ abstract class UseCase<in P, R> {
      *
      */
     operator fun invoke(parameters: P, result: MutableLiveData<Result<R>>) {
-        try {
-            if(checkSingleTask) return
-            result.postValue(Result.Loading)
-            taskScheduler.execute {
-                try {
-                    execute(parameters).let { useCaseResult ->
-                        result.postValue(Result.Success(useCaseResult))
-                    }
-                } catch (e: Exception) {
-                    result.postValue(Result.Error(e))
+        taskScheduler.execute {
+            try {
+                result.postValue(Result.Loading)
+                execute(parameters).let { useCaseResult ->
+                    result.postValue(Result.Success(useCaseResult))
                 }
+            } catch (e: Exception) {
+                result.postValue(Result.Error(e))
             }
-        } catch (e: Exception) {
-            result.postValue(Result.Error(e))
         }
     }
 

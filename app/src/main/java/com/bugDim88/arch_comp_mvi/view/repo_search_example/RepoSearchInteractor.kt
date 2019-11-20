@@ -61,7 +61,6 @@ class RepoSearchInteractor(private val searchGitRepositoriesUseCase: SearchGitRe
     }
 
     init {
-        searchGitRepositoriesUseCase.checkSingleTask = false
         attachUseCaseReducer(_repoQueryResult, _queryResultReducer)
         attachUseCaseReducer(_refreshResult, _refreshResultReducer)
     }
