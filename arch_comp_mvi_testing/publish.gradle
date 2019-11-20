@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 
 group 'com.bugdim88.arch_comp_mvi'
-version '1.0.0'
+version '1.0.1'
 
 project.ext {
     mavGitUrl = 'https://github.com/bugDim88/arch_comp_mvi'
